@@ -5,7 +5,21 @@ this part of script loads .csv tracking files of each flie. Every row are values
 #load folder with .csv files, takes their x, y and velocity value
 import os
 
-path = '/home/firestarter/interaction_c_n/data'
+def distances_f(df1, df2):
+    distances = []
+    for i in range(len(df1)):
+        x1 = df1.iloc[i]['pos x']
+        y1 = df1.iloc[i]['pos y']
+        
+        x2 = df2.iloc[i]['pos x']
+        y2 = df2.iloc[i]['pos y']
+        
+        dist = math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
+        distances.append(dist)
+        
+    return distances
+
+path = r'H:\0_theory\interaction_c_n/data'
 
 files = []
 # r=root, d=directories, f = files
@@ -17,32 +31,35 @@ for r, d, f in os.walk(path):
 import pandas as pd 
 import math 
 
-distances = [] 
-for i in range(len(df_1)):
-    df_1 = pd.read_csv(files[11])
-    df_2 = pd.read_csv(files[7])
-    
-    x1 = df_1.iloc[i]['pos x']
-    y1 = df_1.iloc[i]['pos y']
-    
-    x2 = df_2.iloc[i]['pos x']
-    y2 = df_2.iloc[i]['pos y']
-    
-    distance_df1_df2 = distance_between_points(x1, x2, y1, y2)
-    distances.append(distance_df1_df2)
+all_distances = []
+all_pairs = []
 
-def distance_between_points(x1, x2, y1, y2):
-    dist = math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
-    return dist
-
-def matrix_of_distances():
-    """crates matrix of distances between flies for each frame"""
-    pass
+for i in range(len(files)):
+    df1 = pd.read_csv(files[i])   
+    next_flie = i + 1
     
-for element in distances:
-    if element <= 2:
-        print(distances.index(element))
+    if next_flie <= len(files):     
+        for j in range(next_flie, len(files)):
+            df2 = pd.read_csv(files[j])         
+            #globals()['df' + str(i) + '_df' + str(j)] = distances_f(df1, df2)
+            all_distances.append(distances_f(df1, df2))
+            all_pairs.append(str(i) + ' ' + str(j))
+
+
 
 #function for touch criteria, if 2 flies spend time (15 frames, depends on fps ) near eachother (interacting), edge between 2 nodes of flies will be created
 #matrix analysis, 15, consecutive frames must have True criteria  
 #output is edge list between nodes in graph, each node is flie and their interaction is edge
+
+
+
+def touch_check():
+    
+    
+    
+    
+    
+    
+    
+    
+    
