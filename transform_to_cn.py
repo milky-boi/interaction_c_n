@@ -1,9 +1,11 @@
 """
-this part of script loads .csv tracking files of each flie. Every row are values taken from each frame by Flytrack software
+this part of script loads .csv tracking files of each flie. 
+Every row are values taken from each frame by Flytrack software
 """
 
-#load folder with .csv files, takes their x, y and velocity value
 import os
+import pandas as pd 
+import math 
 
 def distances_f(df1, df2):
     distances = []
@@ -28,9 +30,6 @@ for r, d, f in os.walk(path):
         if '.csv' in file:
             files.append(os.path.join(r, file))
   
-import pandas as pd 
-import math 
-
 all_distances = []
 all_pairs = []
 
@@ -44,22 +43,29 @@ for i in range(len(files)):
             #globals()['df' + str(i) + '_df' + str(j)] = distances_f(df1, df2)
             all_distances.append(distances_f(df1, df2))
             all_pairs.append(str(i) + ' ' + str(j))
+  
+          
+df_distances = pd.DataFrame.from_records(all_distances)
+df_distances = df_distances.T
+df_distances.columns = all_pairs
 
 
 
-#function for touch criteria, if 2 flies spend time (15 frames, depends on fps ) near eachother (interacting), edge between 2 nodes of flies will be created
-#matrix analysis, 15, consecutive frames must have True criteria  
-#output is edge list between nodes in graph, each node is flie and their interaction is edge
+
+
+
+
+
+
+
+
 
 
 
 def touch_check():
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    """
+    function for touch criteria, if 2 flies spend time (15 frames, depends on fps ) near eachother (interacting), edge between 2 nodes of flies will be created
+    matrix analysis, 15, consecutive frames must have True criteria  
+    output is edge list between nodes in graph, each node is flie and their interaction is edge
+    """
+    pass
