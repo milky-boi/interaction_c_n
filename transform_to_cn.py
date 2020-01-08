@@ -6,6 +6,7 @@ import os
 import pandas as pd 
 import math 
 import time 
+import numpy as np
 
 def distances_f(df1, df2):
     distances = []
@@ -46,6 +47,7 @@ def distances_flies():
                 all_pairs.append(str(i) + ' ' + str(j))
                    
     df_distances = pd.DataFrame.from_records(all_distances)
+    df_distances.replace(r'^\s*$', np.nan, regex=True)
     df_distances = df_distances.T
     df_distances.columns = all_pairs
     
