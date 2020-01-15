@@ -7,7 +7,7 @@ import pandas as pd
 import math 
 import time 
 import numpy as np
-import networkx as nx
+import re
 
 def distances_f(df1, df2):
     distances = []
@@ -22,16 +22,23 @@ def distances_f(df1, df2):
         
     return distances
 
-def distances_flies():
+def natural_sort(l): 
+    convert = lambda text: int(text) if text.isdigit() else text.lower() 
+    alphanum_key = lambda key: [ convert(c) for c in re.split('([0-9]+)', key)] 
+    
+    return sorted(l, key = alphanum_key)
+
+#def distances_flies():
+
 start_time = time.time()
 
-path = r'H:\0_theory\interaction_c_n/data'
+path = r'/home/firestarter/interaction_c_n/data'
 files = []
-# r=root, d=directories, f = files
 for r, d, f in os.walk(path):
+    f = natural_sort(f)
     for file in f:
         if '.csv' in file:
-            files.append(os.path.join(r, file))
+            files.append(os.path.join(r, file))   
   
 all_distances = []
 all_pairs = []
@@ -43,7 +50,6 @@ for i in range(len(files)):
     if next_flie <= len(files):     
         for j in range(next_flie, len(files)):
             df2 = pd.read_csv(files[j])         
-            #globals()['df' + str(i) + '_df' + str(j)] = distances_f(df1, df2)
             all_distances.append(distances_f(df1, df2))
             all_pairs.append(str(i) + ' ' + str(j))
                
@@ -59,8 +65,10 @@ clean_time = time.time()-start_time
 print("Distances calculated in %.2f" % clean_time + " seconds")
 print('distances between all flies saved to .csv')
 
+"""
 def main():
     distances_flies()
     
 if __name__ == '__main__':
     main()
+"""
